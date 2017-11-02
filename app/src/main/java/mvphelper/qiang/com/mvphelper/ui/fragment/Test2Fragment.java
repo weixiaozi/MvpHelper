@@ -1,8 +1,12 @@
 package mvphelper.qiang.com.mvphelper.ui.fragment;
 
 import android.graphics.Typeface;
+import android.graphics.drawable.Animatable;
+import android.graphics.drawable.Animatable2;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.animation.Animation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +16,7 @@ import io.reactivex.functions.Consumer;
 import mvphelper.qiang.com.mvphelper.R;
 import mvphelper.qiang.com.mvphelper.base.BaseFragment;
 import mvphelper.qiang.com.mvphelper.databinding.FragmentTest1Binding;
+import mvphelper.qiang.com.mvphelper.databinding.FragmentTest2Binding;
 import mvphelper.qiang.com.mvphelper.domin.ErrorBean;
 import mvphelper.qiang.com.mvphelper.mvp.contract.NetContract;
 import mvphelper.qiang.com.mvphelper.mvp.presenter.TestPresenter;
@@ -23,7 +28,7 @@ import mvphelper.qiang.com.mvphelper.ui.adapter.layoutmanager.CardLayouManager;
  * Created by dell on 2017/10/24.
  */
 
-public class Test1Fragment extends BaseFragment<FragmentTest1Binding, TestPresenter> implements NetContract.INetView {
+public class Test2Fragment extends BaseFragment<FragmentTest2Binding, TestPresenter> implements NetContract.INetView {
 
     private String url = "http://a.hiphotos.baidu.com/image/pic/item/6609c93d70cf3bc7176dd658db00baa1cd112a10.jpg";
     private String url1 = "http://f.hiphotos.baidu.com/image/pic/item/caef76094b36acaf0b35e44876d98d1000e99ca8.jpg";
@@ -69,33 +74,17 @@ public class Test1Fragment extends BaseFragment<FragmentTest1Binding, TestPresen
 
     @Override
     protected int initView(Bundle savedInstanceState) {
-        return R.layout.fragment_test1;
+        return R.layout.fragment_test2;
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
         Bundle arguments = getArguments();
 //        mBinding.tvTestfragment.setText(arguments.getString("testdata"));
-        List<String> datas = new ArrayList<>();
-        Flowable.range(1, 10).subscribe(new Consumer<Integer>() {
-            @Override
-            public void accept(Integer integer) throws Exception {
-                datas.add(url);
-                datas.add(url1);
-                datas.add(url2);
-                datas.add(url3);
-                datas.add(url4);
-                datas.add(url5);
-                datas.add(url6);
-            }
-        });
-        TestAdapter testAdapter = new TestAdapter(provideActivity(), datas);
-        mBinding.rcycleTest.setAdapter(testAdapter);
-        CardItemTouchHelper<String> itemTouchHelpercallback = new CardItemTouchHelper<>(testAdapter, datas);
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelpercallback);
-        mBinding.rcycleTest.setLayoutManager(new CardLayouManager(mBinding.rcycleTest, itemTouchHelper));
-        itemTouchHelper.attachToRecyclerView(mBinding.rcycleTest);
-
+        Drawable drawable = mBinding.ivVector.getDrawable();
+        if (drawable instanceof Animatable) {
+            ((Animatable) drawable).start();
+        }
     }
 }

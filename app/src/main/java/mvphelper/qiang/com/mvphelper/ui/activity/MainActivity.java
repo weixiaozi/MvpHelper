@@ -18,6 +18,7 @@ import mvphelper.qiang.com.mvphelper.mvp.contract.NetContract;
 import mvphelper.qiang.com.mvphelper.mvp.presenter.MainPresenter;
 import mvphelper.qiang.com.mvphelper.ui.adapter.MainFragmentAdapter;
 import mvphelper.qiang.com.mvphelper.ui.fragment.Test1Fragment;
+import mvphelper.qiang.com.mvphelper.ui.fragment.Test2Fragment;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainPresenter> implements NetContract.INetView {
 
@@ -87,7 +88,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainPresente
         bundle.putString("testdata", "test1");
         test1Fragment.setArguments(bundle);
 
-        Test1Fragment test2Fragment = new Test1Fragment();
+        Test2Fragment test2Fragment = new Test2Fragment();
         Bundle bundle2 = new Bundle();
         bundle2.putString("testdata", "test2");
         test2Fragment.setArguments(bundle2);

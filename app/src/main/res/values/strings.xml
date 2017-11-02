@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MvpHelper</string>
+    <string name="test1">&#xe625;</string>
+    <string name="test2">&#xe628;</string>
+    <string name="test3">&#xe649;</string>
+    <string name="test4">&#xe64c;</string>
 </resources>

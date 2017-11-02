@@ -2,6 +2,8 @@ package mvphelper.qiang.com.mvphelper.base;
 
 import android.app.Activity;
 import android.app.Application;
+import android.graphics.Typeface;
+import android.graphics.drawable.Icon;
 import android.os.Bundle;
 
 import com.orhanobut.logger.AndroidLogAdapter;
@@ -16,6 +18,7 @@ import com.squareup.leakcanary.LeakCanary;
 public class App extends Application {
     public static App mApp;
     private final boolean isDebug = true;
+    private Typeface fromAsset;
 
     @Override
     public void onCreate() {
@@ -28,6 +31,7 @@ public class App extends Application {
             //// TODO: 2017/10/17 崩溃日志log
 
         }
+        fromAsset = Typeface.createFromAsset(getAssets(), "iconfont/iconfont.ttf");
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle bundle) {
@@ -66,4 +70,7 @@ public class App extends Application {
         });
     }
 
+    public Typeface getFromAsset() {
+        return fromAsset;
+    }
 }

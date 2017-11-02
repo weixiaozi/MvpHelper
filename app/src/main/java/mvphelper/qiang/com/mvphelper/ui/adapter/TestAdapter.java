@@ -1,11 +1,14 @@
 package mvphelper.qiang.com.mvphelper.ui.adapter;
 
 import android.content.Context;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.List;
 
 import mvphelper.qiang.com.mvphelper.R;
+import mvphelper.qiang.com.mvphelper.base.App;
 import mvphelper.qiang.com.mvphelper.base.BaseRvAdapter;
 import mvphelper.qiang.com.mvphelper.databinding.ItemTest1Binding;
 import mvphelper.qiang.com.mvphelper.utils.ImageLoader;
@@ -30,6 +33,12 @@ public class TestAdapter extends BaseRvAdapter<ItemTest1Binding> {
     @Override
     protected void onBindHolder(MyViewHolder holder, int position) {
         new ImageLoader().setUrl(datas.get(position)).into(holder.mBinding.itemIv).build();
+        holder.mBinding.itemIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(App.mApp, holder.getLayoutPosition() + "", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
