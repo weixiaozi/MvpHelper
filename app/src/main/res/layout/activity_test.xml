@@ -1,17 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawerlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="mvphelper.qiang.com.mvphelper.ui.activity.TestActivity">
+        android:fitsSystemWindows="true">
 
-        <Button
-            android:id="@+id/buttontest"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </android.support.constraint.ConstraintLayout>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary"
+                android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:title="drawerlayout">
+
+            </android.support.v7.widget.Toolbar>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/red"></FrameLayout>
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="600px"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="@color/green">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="hhhhhh" />
+        </FrameLayout>
+    </android.support.v4.widget.DrawerLayout>
 </layout>

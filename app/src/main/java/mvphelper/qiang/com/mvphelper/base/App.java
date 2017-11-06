@@ -5,6 +5,7 @@ import android.app.Application;
 import android.graphics.Typeface;
 import android.graphics.drawable.Icon;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
@@ -20,6 +21,11 @@ public class App extends Application {
     private final boolean isDebug = true;
     private Typeface fromAsset;
 
+    static {
+        AppCompatDelegate.setDefaultNightMode(
+                AppCompatDelegate.MODE_NIGHT_NO);
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -31,6 +37,8 @@ public class App extends Application {
             //// TODO: 2017/10/17 崩溃日志log
 
         }
+
+
         fromAsset = Typeface.createFromAsset(getAssets(), "iconfont/iconfont.ttf");
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override

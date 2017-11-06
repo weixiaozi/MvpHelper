@@ -5,6 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import java.util.List;
 
 import mvphelper.qiang.com.mvphelper.R;
@@ -32,7 +34,7 @@ public class TestAdapter extends BaseRvAdapter<ItemTest1Binding> {
 
     @Override
     protected void onBindHolder(MyViewHolder holder, int position) {
-        new ImageLoader().setUrl(datas.get(position)).into(holder.mBinding.itemIv).build();
+        new ImageLoader().setUrl(datas.get(position)).setmCacheStrategy(DiskCacheStrategy.ALL).into(holder.mBinding.itemIv).build();
         holder.mBinding.itemIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

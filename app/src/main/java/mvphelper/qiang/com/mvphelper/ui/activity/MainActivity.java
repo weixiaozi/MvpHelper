@@ -1,10 +1,18 @@
 package mvphelper.qiang.com.mvphelper.ui.activity;
 
 import android.app.Fragment;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +89,55 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainPresente
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
     protected void initData(Bundle savedInstanceState) {
+        setSupportActionBar(mBinding.mainToolbar);
+        mBinding.mainToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "back", Toast.LENGTH_SHORT).show();
+            }
+        });
+        mBinding.mainToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_search:
+                        startActivity(new Intent(provideActivity(), TestActivity.class));
+                        break;
+                    case R.id.action_search1:
+                        startActivity(new Intent(provideActivity(), TestCoordinatorActivity.class));
+                        break;
+                    case R.id.action_search2:
+                        int model = getResources().getConfiguration().uiMode& Configuration.UI_MODE_NIGHT_MASK;
+                        switch (model) {
+                            case Configuration.UI_MODE_NIGHT_NO:
+                                getDelegate().setLocalNightMode(
+                                        AppCompatDelegate.MODE_NIGHT_YES);
+                                break;
+                            case Configuration.UI_MODE_NIGHT_YES:
+                                getDelegate().setLocalNightMode(
+                                        AppCompatDelegate.MODE_NIGHT_NO);
+                                break;
+                            case Configuration.UI_MODE_NIGHT_UNDEFINED:
+                                getDelegate().setLocalNightMode(
+                                        AppCompatDelegate.MODE_NIGHT_AUTO);
+                                break;
+                        }
+                        recreate();
+                        break;
+                    case R.id.action_search3:
+                        startActivity(new Intent(provideActivity(), TestTabLayoutActivity.class));
+                        break;
+                }
+                return true;
+            }
+        });
         List<BaseFragment> fragments = new ArrayList<>();
         Test1Fragment test1Fragment = new Test1Fragment();
         Bundle bundle = new Bundle();

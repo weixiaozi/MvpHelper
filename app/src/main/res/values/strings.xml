@@ -4,4 +4,6 @@
     <string name="test2">&#xe628;</string>
     <string name="test3">&#xe649;</string>
     <string name="test4">&#xe64c;</string>
+    <string name="open_drawer">Open drawer</string>
+    <string name="close_drawer">Close drawer</string>
 </resources>
