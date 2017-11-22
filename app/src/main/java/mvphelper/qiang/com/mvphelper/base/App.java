@@ -25,7 +25,10 @@ public class App extends Application {
         AppCompatDelegate.setDefaultNightMode(
                 AppCompatDelegate.MODE_NIGHT_NO);
     }
+    public static App getInstance() {
+        return mApp;
 
+    }
     @Override
     public void onCreate() {
         super.onCreate();
