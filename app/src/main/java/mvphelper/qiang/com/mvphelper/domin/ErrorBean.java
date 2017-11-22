@@ -20,7 +20,7 @@ public class ErrorBean {
 
     }
 
-    protected String code;
-    protected String desc;
-    protected String type = TYPE_DEAL;
+    public String code;
+    public String desc;
+    public String type = TYPE_DEAL;
 }

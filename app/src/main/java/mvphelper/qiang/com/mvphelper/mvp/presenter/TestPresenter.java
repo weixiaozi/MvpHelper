@@ -12,8 +12,7 @@ public class TestPresenter extends NetPresenter {
 
     public TestPresenter(NetContract.INetView netView) {
         super(netView);
-        mModel = new TestModel(this,netView.provideActivity());
-        netModel = mModel;
+        netModel = mModel = new TestModel(this, netView.provideActivity());
     }
 
 

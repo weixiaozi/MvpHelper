@@ -1,5 +1,6 @@
 package mvphelper.qiang.com.mvphelper.ui.activity;
 
+import android.Manifest;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -14,6 +15,8 @@ import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.tbruyelle.rxpermissions2.RxPermissions;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +30,7 @@ import mvphelper.qiang.com.mvphelper.mvp.presenter.MainPresenter;
 import mvphelper.qiang.com.mvphelper.ui.adapter.MainFragmentAdapter;
 import mvphelper.qiang.com.mvphelper.ui.fragment.Test1Fragment;
 import mvphelper.qiang.com.mvphelper.ui.fragment.Test2Fragment;
+import mvphelper.qiang.com.mvphelper.ui.service.UpdateApkService;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainPresenter> implements NetContract.INetView {
 
@@ -96,6 +100,14 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainPresente
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        new RxPermissions(this).request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE).subscribe(aBoolean -> {
+            if (aBoolean) {
+                Intent intent = new Intent(provideActivity(), UpdateApkService.class);
+                intent.putExtra("downurl", "http://pre.huanpeng.com/api/app/download.php?channel=8001");
+                startService(intent);
+            }
+        });
+
         setSupportActionBar(mBinding.mainToolbar);
         mBinding.mainToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,7 +126,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainPresente
                         startActivity(new Intent(provideActivity(), TestCoordinatorActivity.class));
                         break;
                     case R.id.action_search2:
-                        int model = getResources().getConfiguration().uiMode& Configuration.UI_MODE_NIGHT_MASK;
+                        int model = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
                         switch (model) {
                             case Configuration.UI_MODE_NIGHT_NO:
                                 getDelegate().setLocalNightMode(

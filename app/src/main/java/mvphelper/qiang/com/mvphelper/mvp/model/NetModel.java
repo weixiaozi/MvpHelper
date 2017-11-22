@@ -40,7 +40,7 @@ public class NetModel implements IBaseModel {
     protected Context mContext;
 
     private Map<Integer, Disposable> mSubscriptionMap = new ArrayMap<>();
-    private NetContract.OnDataLoadingListener dataLoadingListener;
+    public NetContract.OnDataLoadingListener dataLoadingListener;
     protected RetrofitService retrofitService;
     protected CacheProvide cacheProvide;
     protected Gson gson;
@@ -51,7 +51,8 @@ public class NetModel implements IBaseModel {
         retrofitService = RetrofitHelper.getInstance().getRetrofitService();
         cacheProvide = RetrofitHelper.getInstance().getCacheProvide();
         gson = RetrofitHelper.getInstance().getGson();
-        aCache = ACache.get(mContext);
+        if (mContext != null)
+            aCache = ACache.get(mContext);
     }
 
     @Override
@@ -78,6 +79,7 @@ public class NetModel implements IBaseModel {
      */
     @Override
     public void packageData(Flowable<? extends BaseBean> classifyInfo, int tag, String cacheKey, int cacheTime) {
+
         if (cacheTime <= 0) {
             Disposable disposable = classifyInfo.map(new Function<BaseBean, ErrorBean>() {
                 @Override

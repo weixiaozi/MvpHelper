@@ -27,11 +27,13 @@ public class NetPresenter implements NetContract.INetPresenter, NetContract.OnDa
     @Override
     public void onSuccess(ErrorBean o, int tag, boolean isNetWork) {
         netView.setData(o, tag);
+        netView.hideLoading();
     }
 
     @Override
     public void onError(ErrorBean errorBean, int tag) {
         netView.showError(errorBean, tag);
+        netView.hideLoading();
     }
 
     @Override

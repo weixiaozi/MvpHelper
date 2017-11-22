@@ -34,4 +34,5 @@ public interface IBaseModel {
      * @param tag
      */
     void packageData(Flowable<? extends BaseBean> classifyInfo, int tag);
+
 }
