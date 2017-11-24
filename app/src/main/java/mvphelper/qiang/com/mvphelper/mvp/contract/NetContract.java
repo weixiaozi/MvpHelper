@@ -11,11 +11,21 @@ import mvphelper.qiang.com.mvphelper.domin.ErrorBean;
  */
 
 public interface NetContract {
+    //网络请求
     interface INetView extends IBaseView {
         void setData(ErrorBean errorBean, int tag);
 
 
         void progress(int precent, int tag);
+    }
+
+    //包含刷新加载
+    interface IRefreshAndLoadMoreView {
+
+        void noData();
+
+        void noMoreData();
+
     }
 
     interface INetPresenter extends IBasePresenter {

@@ -100,13 +100,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainPresente
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        new RxPermissions(this).request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE).subscribe(aBoolean -> {
+        /*new RxPermissions(this).request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE).subscribe(aBoolean -> {
             if (aBoolean) {
                 Intent intent = new Intent(provideActivity(), UpdateApkService.class);
                 intent.putExtra("downurl", "http://pre.huanpeng.com/api/app/download.php?channel=8001");
                 startService(intent);
             }
-        });
+        });*/
 
         setSupportActionBar(mBinding.mainToolbar);
         mBinding.mainToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -120,7 +120,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainPresente
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_search:
-                        startActivity(new Intent(provideActivity(), TestActivity.class));
+                        startActivity(new Intent(provideActivity(), Test2Activity.class));
                         break;
                     case R.id.action_search1:
                         startActivity(new Intent(provideActivity(), TestCoordinatorActivity.class));

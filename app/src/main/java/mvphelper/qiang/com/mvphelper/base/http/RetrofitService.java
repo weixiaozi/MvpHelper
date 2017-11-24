@@ -4,6 +4,7 @@ import java.util.Map;
 
 import io.reactivex.Flowable;
 import mvphelper.qiang.com.mvphelper.domin.BaseBean;
+import mvphelper.qiang.com.mvphelper.domin.CollectionBean;
 import mvphelper.qiang.com.mvphelper.domin.TestBean;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -18,4 +19,8 @@ public interface RetrofitService {
     @POST(TestBean.URL)
     @FormUrlEncoded
     Flowable<BaseBean<TestBean>> getClassifyInfo(@FieldMap Map<String, String> params);
+
+    @POST(CollectionBean.URL)
+    @FormUrlEncoded
+    Flowable<BaseBean<CollectionBean>> getCollectionInfo(@FieldMap Map<String, String> params);
 }

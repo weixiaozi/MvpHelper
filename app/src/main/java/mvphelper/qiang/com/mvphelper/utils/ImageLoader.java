@@ -76,7 +76,6 @@ public class ImageLoader {
     public void build() {
         GlideRequest<Drawable> load = glideRequests.load(url);
         load.diskCacheStrategy(mCacheStrategy);
-        Log.i("kkdddd", mWidth + "___" + mHeight);
         if (mWidth != 0 || mHeight != 0)
             load.override(mWidth, mHeight);
         if (errorDrawable != 0) {

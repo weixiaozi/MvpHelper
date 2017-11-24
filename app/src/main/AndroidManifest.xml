@@ -16,7 +16,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MyAppTheme">
-
         <provider
             android:name=".function.MyFileProvide"
             android:authorities="mvphelper.qiang.com.mvphelper.Fileprovider"
@@ -26,7 +25,8 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-        <service android:name=".ui.service.UpdateApkService"></service>
+
+        <service android:name=".ui.service.UpdateApkService" />
 
         <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
@@ -37,7 +37,8 @@
         </activity>
         <activity android:name=".ui.activity.TestActivity" />
         <activity android:name=".ui.activity.TestTabLayoutActivity" />
-        <activity android:name=".ui.activity.TestCoordinatorActivity"></activity>
+        <activity android:name=".ui.activity.TestCoordinatorActivity" />
+        <activity android:name=".ui.activity.Test2Activity"></activity>
     </application>
 
 </manifest>
