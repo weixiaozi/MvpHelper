@@ -14,6 +14,7 @@ import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import io.rx_cache2.Reply;
@@ -149,7 +150,20 @@ public class NetModel implements IBaseModel {
     }
 
     public void packageDataWithCache(Flowable<? extends Reply<? extends BaseBean>> classifyInfo, int tag) {
-        Disposable disposable = classifyInfo.map(new Function<Reply<? extends BaseBean>, ErrorBean>() {
+        Disposable disposable = classifyInfo.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Reply<? extends BaseBean>>() {
+                    @Override
+                    public void accept(Reply<? extends BaseBean> reply) {
+                        BaseBean data = reply.getData();
+                        dataLoadingListener.onSuccess(data.getContent(), tag, true);
+                    }
+                }, throwable -> {
+                    dataLoadingListener.onError(new ErrorBean(ERROR_CODE_NETWORK, ERROR_DESC_NETWORK, TYPE_SHOW), tag);
+                    Log.e("bbbbbbb", throwable.getMessage());
+                });
+
+
+       /* Disposable disposable = classifyInfo.map(new Function<Reply<? extends BaseBean>, ErrorBean>() {
             @Override
             public ErrorBean apply(@NonNull Reply<? extends BaseBean> reply) throws Exception {
                 return reply.getData().getContent();
@@ -161,7 +175,7 @@ public class NetModel implements IBaseModel {
                     dataLoadingListener.onError(new ErrorBean(ERROR_CODE_NETWORK, ERROR_DESC_NETWORK, TYPE_SHOW), tag);
                     Log.e("bbbbbbb", throwable.getMessage());
                     Logger.log(Logger.ERROR, ERROR_CODE_NETWORK, ERROR_DESC_NETWORK, throwable);
-                });
+                });*/
         mSubscriptionMap.put(tag, disposable);
     }
 }

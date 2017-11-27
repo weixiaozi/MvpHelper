@@ -5,6 +5,12 @@ import android.util.ArrayMap;
 
 import java.util.Map;
 
+import io.reactivex.Flowable;
+import io.rx_cache2.DynamicKey;
+import io.rx_cache2.EvictProvider;
+import io.rx_cache2.Reply;
+import mvphelper.qiang.com.mvphelper.domin.BaseBean;
+import mvphelper.qiang.com.mvphelper.domin.CollectionBean;
 import mvphelper.qiang.com.mvphelper.mvp.contract.NetContract;
 
 /**
@@ -23,5 +29,7 @@ public class Test2Model extends NetModel {
         params.put("size", size);
         params.put("page", page);
         packageData(retrofitService.getCollectionInfo(params), tag);
+//        Flowable<Reply<BaseBean<CollectionBean>>> collectionInfo = cacheProvide.getCollectionInfo(retrofitService.getCollectionInfo(params),new DynamicKey(page), new EvictProvider(false));
+//        packageDataWithCache(collectionInfo, tag);
     }
 }
