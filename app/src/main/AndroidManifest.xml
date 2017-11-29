@@ -40,7 +40,8 @@
         <activity android:name=".ui.activity.TestTabLayoutActivity" />
         <activity android:name=".ui.activity.TestCoordinatorActivity" />
         <activity android:name=".ui.activity.Test2Activity" />
-        <activity android:name=".ui.activity.PicTestActivity"></activity>
+        <activity android:name=".ui.activity.PicTestActivity" />
+        <activity android:name=".ui.activity.ClipActivity"></activity>
     </application>
 
 </manifest>

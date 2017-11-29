@@ -115,13 +115,22 @@ public class PicTestActivity extends BaseActivity<ActivityPicTestBinding, PicTes
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
+            case ClipActivity.CUT_REQUEST:
+                if (resultCode == RESULT_OK) {
+                    String clipPath = data.getStringExtra(ClipActivity.CLIP);
+                    File newFile = new File(getExternalCacheDir(), "report.jpg");
+                    ImageUtil.compressBmpToFile(this, clipPath, newFile);
+                    mPresenter.uploadPic(newFile, UPLOADPIC_TAG);
+                    displayImage(clipPath);
+                }
+                break;
             case SELECT_PHOTO:
                 if (resultCode == RESULT_OK) {
                     String path = PhotoUtil.getPath(provideActivity(), data.getData());
-                    File newFile = new File(getExternalCacheDir(), "report.jpg");
-                    ImageUtil.compressBmpToFile(this, path, newFile);
-                    mPresenter.uploadPic(newFile, UPLOADPIC_TAG);
-                    displayImage(PhotoUtil.getPath(provideActivity(), data.getData()));
+                    Intent intent = new Intent(provideActivity(), ClipActivity.class);
+                    intent.putExtra(ClipActivity.PATH, path);
+                    startActivityForResult(intent, ClipActivity.CUT_REQUEST);
+
                 }
                 break;
             case TAKE_PHOTO:
