@@ -19,10 +19,16 @@ public class NetPresenter implements NetContract.INetPresenter, NetContract.OnDa
 
     @Override
     public void destory() {
+        netView.hideLoading();
         if (netModel != null)
             netModel.cancelAll();
     }
 
+
+    @Override
+    public void startLoading(int tag) {
+        netView.showLoading();
+    }
 
     @Override
     public void onSuccess(ErrorBean o, int tag, boolean isNetWork) {

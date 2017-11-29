@@ -120,7 +120,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainPresente
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_search:
-                        startActivity(new Intent(provideActivity(), Test2Activity.class));
+                        startActivity(new Intent(provideActivity(), PicTestActivity.class));
                         break;
                     case R.id.action_search1:
                         startActivity(new Intent(provideActivity(), TestCoordinatorActivity.class));

@@ -32,6 +32,8 @@ public interface NetContract {
     }
 
     interface OnDataLoadingListener {
+        void startLoading(int tag);
+
         void onSuccess(ErrorBean o, int tag, boolean isNetWork);
 
         void onError(ErrorBean errorBean, int tag);

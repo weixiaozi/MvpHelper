@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".base.App"
@@ -38,7 +39,8 @@
         <activity android:name=".ui.activity.TestActivity" />
         <activity android:name=".ui.activity.TestTabLayoutActivity" />
         <activity android:name=".ui.activity.TestCoordinatorActivity" />
-        <activity android:name=".ui.activity.Test2Activity"></activity>
+        <activity android:name=".ui.activity.Test2Activity" />
+        <activity android:name=".ui.activity.PicTestActivity"></activity>
     </application>
 
 </manifest>

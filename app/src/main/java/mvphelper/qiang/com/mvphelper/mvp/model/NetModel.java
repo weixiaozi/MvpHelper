@@ -8,6 +8,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.orhanobut.logger.Logger;
 
+import java.io.File;
 import java.util.Map;
 
 import io.reactivex.Flowable;
@@ -19,14 +20,18 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import io.rx_cache2.Reply;
 import mvphelper.qiang.com.mvphelper.base.IBaseModel;
+import mvphelper.qiang.com.mvphelper.base.ProgressListener;
 import mvphelper.qiang.com.mvphelper.base.http.CacheProvide;
 import mvphelper.qiang.com.mvphelper.base.http.RetrofitHelper;
 import mvphelper.qiang.com.mvphelper.base.http.RetrofitService;
+import mvphelper.qiang.com.mvphelper.base.http.UploadFileRequestBody;
 import mvphelper.qiang.com.mvphelper.domin.BaseBean;
 import mvphelper.qiang.com.mvphelper.domin.ErrorBean;
 import mvphelper.qiang.com.mvphelper.mvp.contract.NetContract;
 import mvphelper.qiang.com.mvphelper.utils.ACache;
 import mvphelper.qiang.com.mvphelper.utils.ArmsUtils;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 import static mvphelper.qiang.com.mvphelper.base.http.ErrorCode.ERROR_CODE_NETWORK;
 import static mvphelper.qiang.com.mvphelper.base.http.ErrorCode.ERROR_DESC_NETWORK;
@@ -82,6 +87,7 @@ public class NetModel implements IBaseModel {
     public void packageData(Flowable<? extends BaseBean> classifyInfo, int tag, String cacheKey, int cacheTime) {
 
         if (cacheTime <= 0) {
+            dataLoadingListener.startLoading(tag);
             Disposable disposable = classifyInfo.map(new Function<BaseBean, ErrorBean>() {
                 @Override
                 public ErrorBean apply(BaseBean baseBean) throws Exception {
@@ -104,6 +110,7 @@ public class NetModel implements IBaseModel {
         } else {
             String objString = aCache.getAsString(ArmsUtils.encodeToMD5(cacheKey));
             if (TextUtils.isEmpty(objString)) {
+                dataLoadingListener.startLoading(tag);
                 Disposable disposable = classifyInfo.map(new Function<BaseBean, ErrorBean>() {
                     @Override
                     public ErrorBean apply(BaseBean baseBean) throws Exception {
@@ -133,6 +140,7 @@ public class NetModel implements IBaseModel {
      */
     @Override
     public void packageData(Flowable<? extends BaseBean> classifyInfo, int tag) {
+        dataLoadingListener.startLoading(tag);
         Disposable disposable = classifyInfo.map(new Function<BaseBean, ErrorBean>() {
             @Override
             public ErrorBean apply(BaseBean baseBean) throws Exception {
@@ -150,6 +158,7 @@ public class NetModel implements IBaseModel {
     }
 
     public void packageDataWithCache(Flowable<? extends Reply<? extends BaseBean>> classifyInfo, int tag) {
+        dataLoadingListener.startLoading(tag);
         Disposable disposable = classifyInfo.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Reply<? extends BaseBean>>() {
                     @Override
@@ -177,5 +186,27 @@ public class NetModel implements IBaseModel {
                     Logger.log(Logger.ERROR, ERROR_CODE_NETWORK, ERROR_DESC_NETWORK, throwable);
                 });*/
         mSubscriptionMap.put(tag, disposable);
+    }
+
+    /**
+     * 上传文件时包装request
+     * @param params
+     * @param file
+     * @param tag
+     * @return
+     */
+    public Map<String, RequestBody> packParamsToRequestBody(Map<String, String> params, File file, int tag) {
+        Map<String, RequestBody> requestBodyMap = new ArrayMap<>();
+        UploadFileRequestBody fileRequestBody = new UploadFileRequestBody(file, MediaType.parse(RetrofitHelper.getInstance().getMimeType(file.getAbsolutePath())), new ProgressListener() {
+            @Override
+            public void onProgress(long currentBytes, long contentLength, boolean done) {
+                dataLoadingListener.onProgress((int) (100f * currentBytes / contentLength), tag, done);
+            }
+        });
+        requestBodyMap.put("file\"; filename=\"" + file.getName(), fileRequestBody);
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            requestBodyMap.put(entry.getKey(), RequestBody.create(null, entry.getValue()));
+        }
+        return requestBodyMap;
     }
 }
