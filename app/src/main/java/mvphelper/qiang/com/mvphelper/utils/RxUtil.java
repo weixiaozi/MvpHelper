@@ -1,5 +1,7 @@
 package mvphelper.qiang.com.mvphelper.utils;
 
+import org.reactivestreams.Publisher;
+
 import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
 import io.reactivex.FlowableOnSubscribe;
@@ -19,6 +21,6 @@ public class RxUtil {
      * @return
      */
     public static <T> FlowableTransformer<T, T> fixScheduler() {
-        return upstream -> upstream.subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread());
+        return upstream -> upstream.subscribeOn(Schedulers.io()).unsubscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 }

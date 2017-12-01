@@ -1,35 +1,32 @@
 package mvphelper.qiang.com.mvphelper.ui.activity;
 
 import android.Manifest;
-import android.annotation.TargetApi;
-import android.content.ContentUris;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
-import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+
+import org.reactivestreams.Publisher;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-import io.reactivex.functions.Consumer;
+import io.reactivex.Flowable;
+import io.reactivex.functions.Function;
 import mvphelper.qiang.com.mvphelper.R;
 import mvphelper.qiang.com.mvphelper.base.BaseActivity;
 import mvphelper.qiang.com.mvphelper.base.Constant;
-import mvphelper.qiang.com.mvphelper.base.IBasePresenter;
 import mvphelper.qiang.com.mvphelper.databinding.ActivityPicTestBinding;
 import mvphelper.qiang.com.mvphelper.domin.ErrorBean;
 import mvphelper.qiang.com.mvphelper.domin.ModifyHeadBean;
@@ -167,7 +164,6 @@ public class PicTestActivity extends BaseActivity<ActivityPicTestBinding, PicTes
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
     }
 
     @Override

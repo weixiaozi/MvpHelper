@@ -8,10 +8,13 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.orhanobut.logger.Logger;
 
+import org.reactivestreams.Publisher;
+
 import java.io.File;
 import java.util.Map;
 
 import io.reactivex.Flowable;
+import io.reactivex.FlowableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
@@ -30,6 +33,7 @@ import mvphelper.qiang.com.mvphelper.domin.ErrorBean;
 import mvphelper.qiang.com.mvphelper.mvp.contract.NetContract;
 import mvphelper.qiang.com.mvphelper.utils.ACache;
 import mvphelper.qiang.com.mvphelper.utils.ArmsUtils;
+import mvphelper.qiang.com.mvphelper.utils.RxUtil;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
@@ -94,17 +98,16 @@ public class NetModel implements IBaseModel {
                     aCache.put(ArmsUtils.encodeToMD5(cacheKey), gson.toJson(baseBean.getContent()));
                     return baseBean.getContent();
                 }
-            }).subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread()).subscribe(testBeanBaseBean -> {
-                        dataLoadingListener.onSuccess(testBeanBaseBean, tag, true);
-                    }, Throwable -> {
-                        String objString = aCache.getAsString(ArmsUtils.encodeToMD5(cacheKey));
-                        if (!TextUtils.isEmpty(objString)) {
-                            dataLoadingListener.onSuccess(gson.fromJson(objString, ErrorBean.class), tag, false);
-                        }
-                        dataLoadingListener.onError(new ErrorBean(ERROR_CODE_NETWORK, ERROR_DESC_NETWORK, TYPE_SHOW), tag);
-                        Logger.log(Logger.ERROR, ERROR_CODE_NETWORK, ERROR_DESC_NETWORK, Throwable);
-                    });
+            }).compose(RxUtil.fixScheduler()).subscribe(testBeanBaseBean -> {
+                dataLoadingListener.onSuccess(testBeanBaseBean, tag, true);
+            }, Throwable -> {
+                String objString = aCache.getAsString(ArmsUtils.encodeToMD5(cacheKey));
+                if (!TextUtils.isEmpty(objString)) {
+                    dataLoadingListener.onSuccess(gson.fromJson(objString, ErrorBean.class), tag, false);
+                }
+                dataLoadingListener.onError(new ErrorBean(ERROR_CODE_NETWORK, ERROR_DESC_NETWORK, TYPE_SHOW), tag);
+                Logger.log(Logger.ERROR, ERROR_CODE_NETWORK, ERROR_DESC_NETWORK, Throwable);
+            });
             mSubscriptionMap.put(tag, disposable);
 
         } else {
@@ -117,13 +120,12 @@ public class NetModel implements IBaseModel {
                         aCache.put(ArmsUtils.encodeToMD5(cacheKey), gson.toJson(baseBean.getContent()), cacheTime);
                         return baseBean.getContent();
                     }
-                }).subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread()).subscribe(testBeanBaseBean -> {
-                            dataLoadingListener.onSuccess(testBeanBaseBean, tag, true);
-                        }, Throwable -> {
-                            dataLoadingListener.onError(new ErrorBean(ERROR_CODE_NETWORK, ERROR_DESC_NETWORK, TYPE_SHOW), tag);
-                            Logger.log(Logger.ERROR, ERROR_CODE_NETWORK, ERROR_DESC_NETWORK, Throwable);
-                        });
+                }).compose(RxUtil.fixScheduler()).subscribe(testBeanBaseBean -> {
+                    dataLoadingListener.onSuccess(testBeanBaseBean, tag, true);
+                }, Throwable -> {
+                    dataLoadingListener.onError(new ErrorBean(ERROR_CODE_NETWORK, ERROR_DESC_NETWORK, TYPE_SHOW), tag);
+                    Logger.log(Logger.ERROR, ERROR_CODE_NETWORK, ERROR_DESC_NETWORK, Throwable);
+                });
                 mSubscriptionMap.put(tag, disposable);
             } else {
                 dataLoadingListener.onSuccess(gson.fromJson(objString, ErrorBean.class), tag, false);
@@ -146,30 +148,28 @@ public class NetModel implements IBaseModel {
             public ErrorBean apply(BaseBean baseBean) throws Exception {
                 return baseBean.getContent();
             }
-        }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe(testBeanBaseBean -> {
-                    dataLoadingListener.onSuccess(testBeanBaseBean, tag, true);
-                }, Throwable -> {
-                    dataLoadingListener.onError(new ErrorBean(ERROR_CODE_NETWORK, ERROR_DESC_NETWORK, TYPE_SHOW), tag);
-                    Logger.log(Logger.ERROR, ERROR_CODE_NETWORK, ERROR_DESC_NETWORK, Throwable);
-                });
+        }).compose(RxUtil.fixScheduler()).subscribe(testBeanBaseBean -> {
+            dataLoadingListener.onSuccess(testBeanBaseBean, tag, true);
+        }, Throwable -> {
+            dataLoadingListener.onError(new ErrorBean(ERROR_CODE_NETWORK, ERROR_DESC_NETWORK, TYPE_SHOW), tag);
+            Logger.log(Logger.ERROR, ERROR_CODE_NETWORK, ERROR_DESC_NETWORK, Throwable);
+        });
         mSubscriptionMap.put(tag, disposable);
 
     }
 
     public void packageDataWithCache(Flowable<? extends Reply<? extends BaseBean>> classifyInfo, int tag) {
         dataLoadingListener.startLoading(tag);
-        Disposable disposable = classifyInfo.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Reply<? extends BaseBean>>() {
-                    @Override
-                    public void accept(Reply<? extends BaseBean> reply) {
-                        BaseBean data = reply.getData();
-                        dataLoadingListener.onSuccess(data.getContent(), tag, true);
-                    }
-                }, throwable -> {
-                    dataLoadingListener.onError(new ErrorBean(ERROR_CODE_NETWORK, ERROR_DESC_NETWORK, TYPE_SHOW), tag);
-                    Log.e("bbbbbbb", throwable.getMessage());
-                });
+        Disposable disposable = classifyInfo.compose(RxUtil.fixScheduler()).subscribe(new Consumer<Reply<? extends BaseBean>>() {
+            @Override
+            public void accept(Reply<? extends BaseBean> reply) {
+                BaseBean data = reply.getData();
+                dataLoadingListener.onSuccess(data.getContent(), tag, true);
+            }
+        }, throwable -> {
+            dataLoadingListener.onError(new ErrorBean(ERROR_CODE_NETWORK, ERROR_DESC_NETWORK, TYPE_SHOW), tag);
+            Log.e("bbbbbbb", throwable.getMessage());
+        });
 
 
        /* Disposable disposable = classifyInfo.map(new Function<Reply<? extends BaseBean>, ErrorBean>() {
@@ -177,8 +177,7 @@ public class NetModel implements IBaseModel {
             public ErrorBean apply(@NonNull Reply<? extends BaseBean> reply) throws Exception {
                 return reply.getData().getContent();
             }
-        }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe(testBeanBaseBean -> {
+        }).compose(RxUtil.fixScheduler()).subscribe(testBeanBaseBean -> {
                     dataLoadingListener.onSuccess(testBeanBaseBean, tag, true);
                 }, throwable -> {
                     dataLoadingListener.onError(new ErrorBean(ERROR_CODE_NETWORK, ERROR_DESC_NETWORK, TYPE_SHOW), tag);
@@ -190,6 +189,7 @@ public class NetModel implements IBaseModel {
 
     /**
      * 上传文件时包装request
+     *
      * @param params
      * @param file
      * @param tag
