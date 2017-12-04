@@ -64,27 +64,6 @@ public class Test2Activity extends BaseActivity<ActivityTest2Binding, Test2Prese
                 mPresenter.getCollectMoredata(LOADMORE);
             }
         });
-        test2Adapter.setLoadMoreView(new LoadMoreView() {
-            @Override
-            public int getLayoutId() {
-                return 0;
-            }
-
-            @Override
-            protected int getLoadingViewId() {
-                return 0;
-            }
-
-            @Override
-            protected int getLoadFailViewId() {
-                return 0;
-            }
-
-            @Override
-            protected int getLoadEndViewId() {
-                return 0;
-            }
-        });
 
         mPresenter.getCollectRefreshdata(NORMAL);
 

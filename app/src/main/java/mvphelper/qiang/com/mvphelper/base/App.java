@@ -25,10 +25,12 @@ public class App extends Application {
         AppCompatDelegate.setDefaultNightMode(
                 AppCompatDelegate.MODE_NIGHT_NO);
     }
+
     public static App getInstance() {
         return mApp;
 
     }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -40,8 +42,6 @@ public class App extends Application {
             //// TODO: 2017/10/17 崩溃日志log
 
         }
-
-
         fromAsset = Typeface.createFromAsset(getAssets(), "iconfont/iconfont.ttf");
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
@@ -81,7 +81,9 @@ public class App extends Application {
         });
     }
 
+
     public Typeface getFromAsset() {
         return fromAsset;
     }
+
 }

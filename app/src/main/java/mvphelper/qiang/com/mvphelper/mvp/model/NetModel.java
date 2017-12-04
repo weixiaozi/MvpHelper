@@ -82,7 +82,7 @@ public class NetModel implements IBaseModel {
     }
 
     /**
-     * 设置缓存
+     * 设置缓存 ACache
      *
      * @param classifyInfo
      * @param tag
@@ -158,6 +158,12 @@ public class NetModel implements IBaseModel {
 
     }
 
+
+    /**
+     * Rxcache 设置缓存
+     * @param classifyInfo
+     * @param tag
+     */
     public void packageDataWithCache(Flowable<? extends Reply<? extends BaseBean>> classifyInfo, int tag) {
         dataLoadingListener.startLoading(tag);
         Disposable disposable = classifyInfo.compose(RxUtil.fixScheduler()).subscribe(new Consumer<Reply<? extends BaseBean>>() {
