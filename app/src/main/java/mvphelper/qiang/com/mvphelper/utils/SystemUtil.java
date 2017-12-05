@@ -9,6 +9,8 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Environment;
 import android.telephony.TelephonyManager;
@@ -24,8 +26,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.LineNumberReader;
+import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
+import java.net.NetworkInterface;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -197,6 +204,113 @@ public class SystemUtil {
             }
         }
         return null;
+    }
+
+    /**
+     * 获取手机MAC地址
+     *
+     * @return
+     */
+    public static String getMAC(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { // 如果当前设备系统大于等于6.0 使用下面的方法
+            return getMac6();
+        } else {
+            try {
+                WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                // 获取MAC地址
+                WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+                String mac = wifiInfo.getMacAddress();
+                if (null == mac) {
+                    // 未获取到
+                    mac = "";
+                }
+                return mac;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "";
+            }
+        }
+    }
+
+    /**
+     * 获取手机的MAC地址
+     *
+     * @return
+     */
+    public static String getMac6() {
+        String str = "";
+        String macSerial = "";
+        try {
+            Process pp = Runtime.getRuntime().exec(
+                    "cat /sys/class/net/wlan0/address ");
+            InputStreamReader ir = new InputStreamReader(pp.getInputStream());
+            LineNumberReader input = new LineNumberReader(ir);
+            for (; null != str; ) {
+                str = input.readLine();
+                if (str != null) {
+                    macSerial = str.trim();// 去空格
+                    break;
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        if (macSerial == null || "".equals(macSerial)) {
+            try {
+                return loadFileAsString("/sys/class/net/eth0/address")
+                        .toUpperCase().substring(0, 17);
+            } catch (Exception e) {
+                e.printStackTrace();
+                macSerial = getAndroid7MAC();
+            }
+        }
+        return macSerial;
+    }
+
+    /**
+     * 兼容7.0获取不到的问题
+     *
+     * @return
+     */
+    public static String getAndroid7MAC() {
+        try {
+            List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
+            for (NetworkInterface nif : all) {
+                if (!nif.getName().equalsIgnoreCase("wlan0")) continue;
+                byte[] macBytes = nif.getHardwareAddress();
+                if (macBytes == null) {
+                    return "";
+                }
+                StringBuilder res1 = new StringBuilder();
+                for (byte b : macBytes) {
+                    res1.append(String.format("%02X:", b));
+                }
+                if (res1.length() > 0) {
+                    res1.deleteCharAt(res1.length() - 1);
+                }
+                return res1.toString();
+            }
+        } catch (Exception ex) {
+        }
+        return "";
+    }
+
+    public static String loadFileAsString(String fileName) throws Exception {
+        FileReader reader = new FileReader(fileName);
+        String text = loadReaderAsString(reader);
+        reader.close();
+        return text;
+    }
+
+    public static String loadReaderAsString(Reader reader) throws Exception {
+        StringBuilder builder = new StringBuilder();
+        char[] buffer = new char[4096];
+        int readLength = reader.read(buffer);
+        while (readLength >= 0) {
+            builder.append(buffer, 0, readLength);
+            readLength = reader.read(buffer);
+        }
+        return builder.toString();
     }
 
     /**
@@ -395,9 +509,9 @@ public class SystemUtil {
         }
     }
 
-    private static String getUuidFromNew(Context mContext) {
+    public static String getUuidFromNew(Context mContext) {
         String deviceid;
-        deviceid = getIMEI(mContext);
+        deviceid = getMAC(mContext);
         if (TextUtils.isEmpty(deviceid)) {
             String uuid = (int) (Math.random() * 99999999) + "";
             deviceid = "33" + Build.BOARD.length() % 10 + Build.BRAND.length() % 10 + Build.CPU_ABI.length() % 10 + Build.DEVICE.length() % 10 + Build.DISPLAY.length() % 10 + Build.HOST.length() % 10 + Build.ID.length() % 10 + Build.MANUFACTURER.length() % 10 + Build.MODEL.length() % 10 + Build.PRODUCT.length() % 10 + Build.TAGS.length() % 10 + Build.TYPE.length() % 10 + Build.USER.length() % 10 + uuid;

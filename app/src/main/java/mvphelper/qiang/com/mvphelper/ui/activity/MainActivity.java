@@ -31,6 +31,8 @@ import mvphelper.qiang.com.mvphelper.ui.adapter.MainFragmentAdapter;
 import mvphelper.qiang.com.mvphelper.ui.fragment.Test1Fragment;
 import mvphelper.qiang.com.mvphelper.ui.fragment.Test2Fragment;
 import mvphelper.qiang.com.mvphelper.ui.service.UpdateApkService;
+import mvphelper.qiang.com.mvphelper.utils.LogUtil;
+import mvphelper.qiang.com.mvphelper.utils.SystemUtil;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainPresenter> implements NetContract.INetView {
 
