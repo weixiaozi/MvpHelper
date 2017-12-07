@@ -8,6 +8,7 @@ import android.os.Environment;
 
 public class Constant {
     public static final String STORAGE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MyMvphelper";
+    public static final String GAME_PATH = STORAGE_PATH + "/gamepic";
     public static final String BASEURL = "http://pre.huanpeng.com/";
     public static final String AUTHORITY = "mvphelper.qiang.com.mvphelper.Fileprovider";
     public static String hpUuid;//设备uid

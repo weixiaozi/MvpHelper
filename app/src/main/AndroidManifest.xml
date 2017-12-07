@@ -42,7 +42,11 @@
         <activity android:name=".ui.activity.TestCoordinatorActivity" />
         <activity android:name=".ui.activity.Test2Activity" />
         <activity android:name=".ui.activity.PicTestActivity" />
-        <activity android:name=".ui.activity.ClipActivity"></activity>
+        <activity android:name=".ui.activity.ClipActivity" />
+
+        <service android:name=".ui.service.DownLoadPicIntentService" />
+
+        <activity android:name=".ui.activity.WebviewActivity"></activity>
     </application>
 
 </manifest>

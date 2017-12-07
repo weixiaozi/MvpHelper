@@ -3,8 +3,11 @@ package mvphelper.qiang.com.mvphelper.ui.activity;
 import android.Manifest;
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.databinding.ViewDataBinding;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatDelegate;
@@ -12,11 +15,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import java.io.File;
+import java.io.FileDescriptor;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,11 +39,19 @@ import mvphelper.qiang.com.mvphelper.mvp.presenter.MainPresenter;
 import mvphelper.qiang.com.mvphelper.ui.adapter.MainFragmentAdapter;
 import mvphelper.qiang.com.mvphelper.ui.fragment.Test1Fragment;
 import mvphelper.qiang.com.mvphelper.ui.fragment.Test2Fragment;
+import mvphelper.qiang.com.mvphelper.ui.service.DownLoadPicIntentService;
 import mvphelper.qiang.com.mvphelper.ui.service.UpdateApkService;
 import mvphelper.qiang.com.mvphelper.utils.LogUtil;
 import mvphelper.qiang.com.mvphelper.utils.SystemUtil;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainPresenter> implements NetContract.INetView {
+    private String url = "http://a.hiphotos.baidu.com/image/pic/item/6609c93d70cf3bc7176dd658db00baa1cd112a10.jpg";
+    private String url1 = "http://f.hiphotos.baidu.com/image/pic/item/caef76094b36acaf0b35e44876d98d1000e99ca8.jpg";
+    private String url2 = "http://d.hiphotos.baidu.com/image/pic/item/a8014c086e061d95a17f698c71f40ad162d9ca4d.jpg";
+    private String url3 = "http://e.hiphotos.baidu.com/image/pic/item/c8177f3e6709c93d24085b43953df8dcd000548f.jpg";
+    private String url4 = "http://g.hiphotos.baidu.com/image/pic/item/3b87e950352ac65c1e6b1bc7f1f2b21193138a13.jpg";
+    private String url5 = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509017612394&di=ea48ac8dad2e5096b76c866a0e970073&imgtype=0&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2Fc2fdfc039245d688bb61de94a2c27d1ed21b249a.jpg";
+    private String url6 = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509017612392&di=68297110c72e28b90af28d3f35cf8266&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fwallpaper%2F1210%2F08%2Fc1%2F14307187_1349676294934.jpg";
 
     @Override
     public void showLoading() {
@@ -102,13 +119,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainPresente
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        /*new RxPermissions(this).request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE).subscribe(aBoolean -> {
+        new RxPermissions(this).request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE).subscribe(aBoolean -> {
             if (aBoolean) {
-                Intent intent = new Intent(provideActivity(), UpdateApkService.class);
-                intent.putExtra("downurl", "http://pre.huanpeng.com/api/app/download.php?channel=8001");
-                startService(intent);
+
             }
-        });*/
+        });
 
         setSupportActionBar(mBinding.mainToolbar);
         mBinding.mainToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -122,10 +137,23 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainPresente
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_search:
-                        startActivity(new Intent(provideActivity(), Test2Activity.class));
+                        ArrayList<String> li = new ArrayList<>();
+                        li.add(url);
+                        li.add(url1);
+                        li.add(url2);
+                        li.add(url3);
+                        li.add(url4);
+                        li.add(url5);
+                        li.add(url6);
+                        Intent intent = new Intent(provideActivity(), DownLoadPicIntentService.class);
+                        intent.putStringArrayListExtra("pics", li);
+                        startService(intent);
+
+//                        startActivity(new Intent(provideActivity(), Test2Activity.class));
                         break;
                     case R.id.action_search1:
-                        startActivity(new Intent(provideActivity(), TestCoordinatorActivity.class));
+                        startActivity(new Intent(provideActivity(), WebviewActivity.class));
+//                        startActivity(new Intent(provideActivity(), TestCoordinatorActivity.class));
                         break;
                     case R.id.action_search2:
                         int model = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
@@ -182,4 +210,5 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainPresente
 //        GlideApp.with(this).load("http://a.hiphotos.baidu.com/image/pic/item/6609c93d70cf3bc7176dd658db00baa1cd112a10.jpg").into(iv_mainactivity);
 
     }
+
 }

@@ -24,7 +24,7 @@ public class Test2Adapter extends BaseQuickAdapter<CollectionBean.ListEntity, Ba
 
     @Override
     protected void convert(BaseViewHolder helper, CollectionBean.ListEntity item) {
-        new ImageLoader().setUrl(item.getPoster()).setLoadDrawable(R.drawable.leak_canary_icon).setmCacheStrategy(DiskCacheStrategy.ALL).into((ImageView) helper.getView(R.id.item_iv)).build();
+        new ImageLoader().setUrl(item.getPoster()).setLoadDrawable(R.mipmap.em_1).setmCacheStrategy(DiskCacheStrategy.ALL).into((ImageView) helper.getView(R.id.item_iv)).build();
         helper.setText(R.id.item_txt, item.getVideoID());
     }
 }
