@@ -152,8 +152,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainPresente
 //                        startActivity(new Intent(provideActivity(), Test2Activity.class));
                         break;
                     case R.id.action_search1:
-                        startActivity(new Intent(provideActivity(), WebviewActivity.class));
-//                        startActivity(new Intent(provideActivity(), TestCoordinatorActivity.class));
+//                        startActivity(new Intent(provideActivity(), WebviewActivity.class));
+                        startActivity(new Intent(provideActivity(), Test2Activity.class));
                         break;
                     case R.id.action_search2:
                         int model = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;

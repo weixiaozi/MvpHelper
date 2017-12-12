@@ -1,9 +1,11 @@
 package mvphelper.qiang.com.mvphelper.ui.activity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.loadmore.LoadMoreView;
@@ -16,6 +18,7 @@ import mvphelper.qiang.com.mvphelper.domin.ErrorBean;
 import mvphelper.qiang.com.mvphelper.mvp.contract.NetContract;
 import mvphelper.qiang.com.mvphelper.mvp.presenter.Test2Presenter;
 import mvphelper.qiang.com.mvphelper.ui.adapter.Test2Adapter;
+import mvphelper.qiang.com.mvphelper.utils.ScreenUtils;
 
 public class Test2Activity extends BaseActivity<ActivityTest2Binding, Test2Presenter> implements NetContract.INetView, NetContract.IRefreshAndLoadMoreView {
     private static final int NORMAL = 1;
@@ -52,6 +55,8 @@ public class Test2Activity extends BaseActivity<ActivityTest2Binding, Test2Prese
     protected int initView(Bundle savedInstanceState) {
         return R.layout.activity_test2;
     }
+
+
 
     @Override
     protected void initData(Bundle savedInstanceState) {

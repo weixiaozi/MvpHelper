@@ -17,7 +17,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/MyAppTheme">
+        android:theme="@style/TranslucentTheme">
         <provider
             android:name=".function.MyFileProvide"
             android:authorities="mvphelper.qiang.com.mvphelper.Fileprovider"

@@ -22,6 +22,8 @@
         <item name="android:layout_marginBottom">@dimen/dp6</item>-->
     </style>
 
+    <style name="TranslucentTheme" parent="AppTheme"></style>
+
     <style name="MyAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item> <!--浅蓝色-->
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item> <!--深蓝色-->

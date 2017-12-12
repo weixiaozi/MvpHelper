@@ -3,14 +3,19 @@ package mvphelper.qiang.com.mvphelper.base;
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.ViewGroup;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import mvphelper.qiang.com.mvphelper.R;
 import mvphelper.qiang.com.mvphelper.utils.InputLeakUtil;
+import mvphelper.qiang.com.mvphelper.utils.ScreenUtils;
 
 
 /**
@@ -35,6 +40,7 @@ public abstract class BaseActivity<D extends ViewDataBinding, T extends IBasePre
         } catch (Exception e) {
             e.printStackTrace();
         }
+        immerseUI(getResources().getColor(R.color.red));
         mPresenter = creatPresenter();
         if (isBindEventBus())
             EventBus.getDefault().register(this);
@@ -62,6 +68,24 @@ public abstract class BaseActivity<D extends ViewDataBinding, T extends IBasePre
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void event(Integer i) {
+
+    }
+
+    public void immerseUI(int color) {
+        ViewGroup rootView = getWindow().getDecorView().findViewById(android.R.id.content);
+        rootView.setPadding(0, ScreenUtils.getStatusBarHeight(this), 0, 0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            //5.0 以上直接设置状态栏颜色
+            getWindow().setStatusBarColor(color);
+        } else {
+            //根布局添加占位状态栏
+            ViewGroup decorView = (ViewGroup) getWindow().getDecorView();
+            View statusBarView = new View(this);
+            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ScreenUtils.getStatusBarHeight(this));
+            statusBarView.setBackgroundColor(color);
+            decorView.addView(statusBarView, lp);
+        }
 
     }
 
