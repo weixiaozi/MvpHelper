@@ -154,7 +154,6 @@ public class CrashHandler implements UncaughtExceptionHandler {
 	 */
 	private void saveCrashInfo2File(Throwable ex) {
 
-		StringBuffer sb = new StringBuffer();
 		Writer writer = new StringWriter();
 		PrintWriter printWriter = new PrintWriter(writer);
 		ex.printStackTrace(printWriter);
@@ -169,8 +168,8 @@ public class CrashHandler implements UncaughtExceptionHandler {
 		DBHelper dbHelper = new DBHelper(App.getInstance());
 		dbHelper.insert(contentValues);
 
-
-
+/*
+		StringBuffer sb = new StringBuffer();
 		sb.append(result);
 		File dir = new File(STORAGE_PATH);
 		if (!dir.exists()) {
@@ -195,5 +194,5 @@ public class CrashHandler implements UncaughtExceptionHandler {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 }
