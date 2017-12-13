@@ -6,7 +6,6 @@ import android.util.ArrayMap;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.orhanobut.logger.Logger;
 
 import org.reactivestreams.Publisher;
 
@@ -106,7 +105,6 @@ public class NetModel implements IBaseModel {
                     dataLoadingListener.onSuccess(gson.fromJson(objString, ErrorBean.class), tag, false);
                 }
                 dataLoadingListener.onError(new ErrorBean(ERROR_CODE_NETWORK, ERROR_DESC_NETWORK, TYPE_SHOW), tag);
-                Logger.log(Logger.ERROR, ERROR_CODE_NETWORK, ERROR_DESC_NETWORK, Throwable);
             });
             mSubscriptionMap.put(tag, disposable);
 
@@ -124,7 +122,6 @@ public class NetModel implements IBaseModel {
                     dataLoadingListener.onSuccess(testBeanBaseBean, tag, true);
                 }, Throwable -> {
                     dataLoadingListener.onError(new ErrorBean(ERROR_CODE_NETWORK, ERROR_DESC_NETWORK, TYPE_SHOW), tag);
-                    Logger.log(Logger.ERROR, ERROR_CODE_NETWORK, ERROR_DESC_NETWORK, Throwable);
                 });
                 mSubscriptionMap.put(tag, disposable);
             } else {
@@ -152,7 +149,6 @@ public class NetModel implements IBaseModel {
             dataLoadingListener.onSuccess(testBeanBaseBean, tag, true);
         }, Throwable -> {
             dataLoadingListener.onError(new ErrorBean(ERROR_CODE_NETWORK, ERROR_DESC_NETWORK, TYPE_SHOW), tag);
-            Logger.log(Logger.ERROR, ERROR_CODE_NETWORK, ERROR_DESC_NETWORK, Throwable);
         });
         mSubscriptionMap.put(tag, disposable);
 
