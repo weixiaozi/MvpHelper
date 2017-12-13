@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.databinding.ViewDataBinding;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -34,6 +36,7 @@ import mvphelper.qiang.com.mvphelper.base.BaseActivity;
 import mvphelper.qiang.com.mvphelper.base.BaseFragment;
 import mvphelper.qiang.com.mvphelper.databinding.ActivityMainBinding;
 import mvphelper.qiang.com.mvphelper.domin.ErrorBean;
+import mvphelper.qiang.com.mvphelper.function.DBHelper;
 import mvphelper.qiang.com.mvphelper.mvp.contract.NetContract;
 import mvphelper.qiang.com.mvphelper.mvp.presenter.MainPresenter;
 import mvphelper.qiang.com.mvphelper.ui.adapter.MainFragmentAdapter;
@@ -137,7 +140,26 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainPresente
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_search:
-                        ArrayList<String> li = new ArrayList<>();
+                        DBHelper dbHelper = new DBHelper(provideActivity());
+                        Cursor cursor = dbHelper.query();
+                        while (cursor.moveToNext()) {
+                            if (cursor.isLast()){
+                                //版本Version；渠道Channel；型号Model；系统System；时间Time；崩溃日志Log
+                                int id = cursor.getInt(cursor.getColumnIndex("Id"));
+                                String version = cursor.getString(cursor.getColumnIndex("Version"));
+                                String channel = cursor.getString(cursor.getColumnIndex("Channel"));
+                                String model = cursor.getString(cursor.getColumnIndex("Model"));
+                                String system = cursor.getString(cursor.getColumnIndex("System"));
+                                String time = cursor.getString(cursor.getColumnIndex("Time"));
+                                String log = cursor.getString(cursor.getColumnIndex("Log"));
+                                LogUtil.i("crash:::", id + "__" + version + "__" + channel + "__" + model + "__" + system + "__" + time + "__" + log);
+
+                            }
+                        }
+                        cursor.close();
+                        dbHelper.deleteAll();
+                        dbHelper.close();
+                       /* ArrayList<String> li = new ArrayList<>();
                         li.add(url);
                         li.add(url1);
                         li.add(url2);
@@ -147,11 +169,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainPresente
                         li.add(url6);
                         Intent intent = new Intent(provideActivity(), DownLoadPicIntentService.class);
                         intent.putStringArrayListExtra("pics", li);
-                        startService(intent);
+                        startService(intent);*/
 
 //                        startActivity(new Intent(provideActivity(), Test2Activity.class));
                         break;
                     case R.id.action_search1:
+                        TextView tv = null;
+                        tv.setText("");
 //                        startActivity(new Intent(provideActivity(), WebviewActivity.class));
                         startActivity(new Intent(provideActivity(), Test2Activity.class));
                         break;

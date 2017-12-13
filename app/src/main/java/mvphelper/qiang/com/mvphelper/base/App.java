@@ -11,6 +11,8 @@ import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 import com.squareup.leakcanary.LeakCanary;
 
+import mvphelper.qiang.com.mvphelper.function.CrashHandler;
+
 
 /**
  * Created by dell on 2017/10/17.
@@ -38,9 +40,9 @@ public class App extends Application {
         if (isDebug) {
             LeakCanary.install(this);
             Logger.addLogAdapter(new AndroidLogAdapter());
+            CrashHandler.getInstance().init(this);
         } else {
-            //// TODO: 2017/10/17 崩溃日志log
-
+            CrashHandler.getInstance().init(this);
         }
         fromAsset = Typeface.createFromAsset(getAssets(), "iconfont/iconfont.ttf");
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
