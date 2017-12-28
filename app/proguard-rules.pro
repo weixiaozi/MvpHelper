@@ -127,7 +127,6 @@ public static final int *;
 }
 
 # for DexGuard only
--keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 -keep class com.chad.library.adapter.** {
 *;
 }
