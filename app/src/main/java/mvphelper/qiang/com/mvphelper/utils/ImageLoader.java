@@ -87,7 +87,7 @@ public class ImageLoader {
         if (mTransformation != null)
             load.transforms(mTransformation);
         load.transition(DrawableTransitionOptions.withCrossFade());
-        if (mReference.get() != null)
+        if (mReference != null && mReference.get() != null)
             load.into(mReference.get());
         if (mOnLoadDrawableListener != null) {
             load.into(new SimpleTarget<Drawable>() {
