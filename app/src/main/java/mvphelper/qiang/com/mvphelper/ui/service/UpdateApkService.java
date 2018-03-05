@@ -36,7 +36,7 @@ public class UpdateApkService extends IntentService implements NetContract.INetV
     protected void onHandleIntent(@Nullable Intent intent) {
         String downUrl = intent.getStringExtra("downurl");
         UpdataApkPresenter updataApkPresenter = new UpdataApkPresenter(this);
-        updataApkPresenter.downloadApk(downUrl, Constant.STORAGE_PATH, "mvpdemo.apk", DOWNAPK_TAG);
+        updataApkPresenter.downloadApk(downUrl, Constant.STORAGE_PATH, "newbeauty.apk", DOWNAPK_TAG);
     }
 
     @Override
