@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="mvphelper.qiang.com.mvphelper">
+    package="com.mvphelper">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -20,7 +20,7 @@
         android:theme="@style/TranslucentTheme">
         <provider
             android:name=".function.MyFileProvide"
-            android:authorities="mvphelper.qiang.com.mvphelper.Fileprovider"
+            android:authorities="com.mvphelper.Fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

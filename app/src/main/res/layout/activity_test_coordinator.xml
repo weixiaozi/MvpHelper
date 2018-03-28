@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         android:background="@android:color/background_light"
         android:fitsSystemWindows="true"
-        tools:context="mvphelper.qiang.com.mvphelper.ui.activity.TestCoordinatorActivity">
+        tools:context="com.mvphelper.ui.activity.TestCoordinatorActivity">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"

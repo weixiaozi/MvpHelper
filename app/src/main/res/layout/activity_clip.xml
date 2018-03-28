@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <mvphelper.qiang.com.mvphelper.widget.ZoomClipImageView
+        <com.mvphelper.widget.ZoomClipImageView
             android:id="@+id/zciv_clip"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

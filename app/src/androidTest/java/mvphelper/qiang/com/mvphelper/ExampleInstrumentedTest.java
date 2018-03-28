@@ -1,4 +1,4 @@
-package mvphelper.qiang.com.mvphelper;
+package com.mvphelper;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("mvphelper.qiang.com.mvphelper", appContext.getPackageName());
+        assertEquals("com.mvphelper", appContext.getPackageName());
     }
 }

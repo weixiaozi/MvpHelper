@@ -96,7 +96,7 @@
 -keepattributes EnclosingMethod
 -keepattributes Exceptions
 
--keep public class mvphelper.qiang.com.mvphelper.R$*{
+-keep public class com.mvphelper.R$*{
 public static final int *;
 }
 -keepclassmembers enum * {     # 保持枚举 enum 类不被混淆

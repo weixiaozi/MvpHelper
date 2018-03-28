@@ -1,4 +1,4 @@
-package mvphelper.qiang.com.mvphelper;
+package com.mvphelper;
 
 import org.junit.Test;
 

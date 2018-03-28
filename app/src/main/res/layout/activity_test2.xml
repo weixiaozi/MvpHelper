@@ -5,7 +5,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="mvphelper.qiang.com.mvphelper.ui.activity.Test2Activity">
+        tools:context="com.mvphelper.ui.activity.Test2Activity">
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh"

@@ -6,9 +6,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="mvphelper.qiang.com.mvphelper.ui.activity.TestActivity">
+        tools:context="com.mvphelper.ui.activity.TestActivity">
 
-        <mvphelper.qiang.com.mvphelper.widget.IconView
+        <com.mvphelper.widget.IconView
             android:id="@+id/tv_testfragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

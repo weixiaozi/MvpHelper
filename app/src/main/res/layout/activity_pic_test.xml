@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="mvphelper.qiang.com.mvphelper.ui.activity.PicTestActivity">
+        tools:context="com.mvphelper.ui.activity.PicTestActivity">
 
         <ImageView
             android:id="@+id/iv_pic"
